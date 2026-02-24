@@ -20,11 +20,23 @@ vim.keymap.set('', 'ש', 'a')
 --Copilot mappings
 vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)', { desc = 'Accept Copilot suggestion' })
 
+--No highlight after search
+vim.api.nvim_create_autocmd('CursorMoved', {
+  group = vim.api.nvim_create_augroup('auto-hlsearch', { clear = true }),
+  callback = function ()
+    if vim.v.hlsearch == 1 and vim.fn.searchcount().exact_match == 0 then
+      vim.schedule(function () vim.cmd.nohlsearch() end)
+    end
+  end
+})
+
+vim.wo.number = true
 
 vim.g.vimtex_quickfix_mode = 0
 vim.g.vimtex_quickfix_open_on_stderr = 0
-vim.g.vimtex_view_method = 'zathura'
-vim.g.vimtex_view_general_viewer = 'zathura'
+--vim.g.vimtex_view_method = 'zathura'
+vim.g.vimtex_view_method = 'sioyek'
+vim.g.vimtex_view_general_viewer = 'sioyek'
 vim.g.vimtex_view_general_options = '--unique file:@pdf#src:@line@tex'
 vim.g.vimtex_compiler_method = 'latexmk'
 
